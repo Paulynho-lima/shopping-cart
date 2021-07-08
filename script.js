@@ -1,22 +1,18 @@
 const getComputer = (computer) => {
-  return new Promise((resolve, reject) => {
+  new Promise((resolve, reject) => {
     fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${computer}`)
       .then((response) => response.json())
       .then((Object) => {
         Object.results.forEach((result) => {
-          const obj = {
-            sku: result.id,
-            name: result.title,
-            image: result.thumbnail,
-            salePrice: result.price,
-          };
+          const obj = result;
           const section = document.querySelector('.items');
           section.appendChild(createProductItemElement(obj));
         });
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
       });
-    resolve();
-  }).catch((error) => {
-    reject(error);
   });
 };
 
@@ -34,7 +30,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement("section");
   section.className = "item";
 
