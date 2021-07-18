@@ -1,3 +1,5 @@
+const PRODUCT_KEY = 'productKey';
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -15,10 +17,19 @@ function createCustomElement(element, className, innerText) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+const product = document.querySelector('.cart__items');
 
-  function cartItemClickListener() {
-// coloque seu código aqui
- }
+const saveLocalStorage = () => {
+  localStorage.setItem(PRODUCT_KEY, product.innerHTML);
+// console.log( product)
+};
+
+// requisito 3 apagar intem do carrinho
+function cartItemClickListener(event) {
+  const deleteIntem = document.querySelectorAll('.cart__item');
+  event.target.remove(deleteIntem);
+  saveLocalStorage();
+}
 // requisito 2 add no corrinho
 // usei como referencia a documentação https://www.w3schools.com/jsref/prop_node_parentelement.asp
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -34,6 +45,7 @@ const buscarId = async (event) => {
   const response = await fetch(`https://api.mercadolibre.com/items/${sku}`);
   const objet = await response.json();
   document.querySelector('.cart__items').appendChild(createCartItemElement(objet));
+  saveLocalStorage();
 };
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -64,6 +76,21 @@ const getComputer = async (computer) => {
   const array = object.results;
   incrementResults(array);
 };
+
+const getLocalStorage = () => {
+  product.innerHTML = localStorage.getItem(PRODUCT_KEY);
+  product.addEventListener('click', cartItemClickListener);
+};
+
+// recuperar botao e função apaga tudo.
+const buttom = document.querySelector('.empty-cart');
+
+const clear = () => {
+  product.innerText = '';
+  saveLocalStorage();
+};
+buttom.addEventListener('click', clear);
+
 // USANDO O THEN ////
 /*
 const getComputer = (computer) => {
@@ -82,4 +109,5 @@ const getComputer = (computer) => {
 
 window.onload = () => {
   getComputer('computador');
+  getLocalStorage();
 };
