@@ -17,6 +17,19 @@ function createCustomElement(element, className, innerText) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+// usei como referencia o site https://www.w3schools.com/jsref/jsref_number.asp
+const spanPrice = document.querySelector('.total-price');
+const totalPrice = () => {
+  let totalItems = 0;
+  const listItems = document.querySelectorAll('.cart__item');
+  listItems.forEach((value) => {
+    const valuePrice = value.innerText.split('$')[1];
+    totalItems += Number(valuePrice);
+    totalItems.toFixed(2);
+  });
+  spanPrice.innerText = totalItems;
+};
+
 const product = document.querySelector('.cart__items');
 
 const saveLocalStorage = () => {
@@ -29,6 +42,7 @@ function cartItemClickListener(event) {
   const deleteIntem = document.querySelectorAll('.cart__item');
   event.target.remove(deleteIntem);
   saveLocalStorage();
+  totalPrice();
 }
 // requisito 2 add no corrinho
 // usei como referencia a documentação https://www.w3schools.com/jsref/prop_node_parentelement.asp
@@ -46,6 +60,7 @@ const buscarId = async (event) => {
   const objet = await response.json();
   document.querySelector('.cart__items').appendChild(createCartItemElement(objet));
   saveLocalStorage();
+  totalPrice();
 };
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -76,7 +91,7 @@ const getComputer = async (computer) => {
   const array = object.results;
   incrementResults(array);
 };
-
+// recuperar lista do local storage
 const getLocalStorage = () => {
   product.innerHTML = localStorage.getItem(PRODUCT_KEY);
   product.addEventListener('click', cartItemClickListener);
@@ -88,6 +103,7 @@ const buttom = document.querySelector('.empty-cart');
 const clear = () => {
   product.innerText = '';
   saveLocalStorage();
+  totalPrice();
 };
 buttom.addEventListener('click', clear);
 
@@ -106,7 +122,6 @@ const getComputer = (computer) => {
     .catch((error) => console.log(error, 'erro'));
 };
 */
-
 window.onload = () => {
   getComputer('computador');
   getLocalStorage();
