@@ -7,15 +7,24 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  
+
   <body>
+    <header class="header">
+      <h1>Mercado de Compras</h1>
+      <div class="divBusca">
+        <input type="text" class="buscar" />
+      </div>
+    </header>
     <section class="container">
       <section class="items"></section>
       <section class="cart">
         <span class="cart__title">Carrinho de compras</span>
         <button class="empty-cart">Esvaziar carrinho</button>
         <ol class="cart__items"></ol>
-        <span class="total-price"></span>
+        <div class="total">
+          <h3>Valor Total:</h3>
+          <span class="total-price"> </span>
+        </div>
       </section>
     </section>
     <script src="script.js"></script>
