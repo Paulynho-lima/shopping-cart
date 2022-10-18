@@ -27,7 +27,6 @@ const totalPrice = () => {
   listItems.forEach((value) => {
     const valuePrice = value.innerText.split("$")[1];
     totalItems += Number(valuePrice);
-    totalItems.toFixed(2);
   });
   spanPrice.innerText = `R$${totalItems.toFixed(2)}`;
 };
@@ -46,7 +45,7 @@ function cartItemClickListener(event) {
   saveLocalStorage();
   totalPrice();
 }
-// requisito 2 add no corrinho
+// requisito 2 add no carrinho
 // usei como referencia a documentação https://www.w3schools.com/jsref/prop_node_parentelement.asp
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement("li");
