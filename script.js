@@ -150,5 +150,6 @@ inputs.appendChild(button2);
 
 window.onload = () => {
   getComputer("computador");
+  totalPrice();
   getLocalStorage();
 };
